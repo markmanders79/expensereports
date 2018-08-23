@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_ui_form_sections form_id="56139b0ddb8d4300aa4fb34ffe9619a6" sys_domain="global" table="x_pagr_exp_rp_expense_reports" version="3">
+        <sys_ui_form_section action="INSERT_OR_UPDATE">
+            <position>0</position>
+            <sys_created_by>martijn.fieten</sys_created_by>
+            <sys_created_on>2017-09-05 13:12:52</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>9e131f0ddb8d4300aa4fb34ffe9619d2</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_overrides/>
+            <sys_ui_form display_value="x_pagr_exp_rp_expense_reports" name="x_pagr_exp_rp_expense_reports" sys_domain="global" view="Default view">56139b0ddb8d4300aa4fb34ffe9619a6</sys_ui_form>
+            <sys_ui_section caption="NULL" display_value="" name="x_pagr_exp_rp_expense_reports" sys_domain="global" view="Default view">52131f0ddb8d4300aa4fb34ffe9619cf</sys_ui_section>
+            <sys_updated_by>martijn.fieten</sys_updated_by>
+            <sys_updated_on>2017-09-05 13:12:52</sys_updated_on>
+        </sys_ui_form_section>
+        <sys_ui_form action="INSERT_OR_UPDATE">
+            <name>x_pagr_exp_rp_expense_reports</name>
+            <roles/>
+            <sys_class_name>sys_ui_form</sys_class_name>
+            <sys_created_by>martijn.fieten</sys_created_by>
+            <sys_created_on>2017-09-05 13:12:52</sys_created_on>
+            <sys_customer_update>false</sys_customer_update>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>56139b0ddb8d4300aa4fb34ffe9619a6</sys_id>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_name>x_pagr_exp_rp_expense_reports</sys_name>
+            <sys_overrides/>
+            <sys_package display_value="Expense Reports" source="x_pagr_exp_rp">92c15389db8d4300aa4fb34ffe96197c</sys_package>
+            <sys_policy/>
+            <sys_replace_on_upgrade>true</sys_replace_on_upgrade>
+            <sys_scope display_value="Expense Reports">92c15389db8d4300aa4fb34ffe96197c</sys_scope>
+            <sys_update_name>sys_ui_form_sections_56139b0ddb8d4300aa4fb34ffe9619a6</sys_update_name>
+            <sys_updated_by>mark.manders</sys_updated_by>
+            <sys_updated_on>2017-10-17 10:15:31</sys_updated_on>
+            <sys_user/>
+            <view display_value="Default view" name="NULL">Default view</view>
+            <view_name/>
+        </sys_ui_form>
+    </sys_ui_form_sections>
+</record_update>

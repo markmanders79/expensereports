@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_email">
+    <sys_script_email action="INSERT_OR_UPDATE">
+        <name>pg-getExpenseLines</name>
+        <new_lines_to_html>false</new_lines_to_html>
+        <script><![CDATA[(function runMailScript(/* GlideRecord */ current, /* TemplatePrinter */ template,
+          /* Optional EmailOutbound */ email, /* Optional GlideRecord */ email_action,
+          /* Optional GlideRecord */ event) {
+
+          // Add your code here
+	
+	var arr = [];
+	
+	var gr = new GlideRecord("x_pagr_exp_rp_expense_line");
+	gr.orderBy('category');
+	gr.addQuery("expense_report", current.sys_id);
+	gr.addQuery("approval", "approved");
+	gr.query();
+	while (gr.next()) {
+		
+		arr.push([
+		gr.date.getDisplayValue(),
+		gr.description.toString(),
+		gr.category.getDisplayValue(),
+		gr.amount_without_tax.getDisplayValue(),
+		gr.tax_amount.getDisplayValue(),
+		gr.amount.getDisplayValue(),
+		gr.expense_report.opened_by.u_employee_record.u_bank_account.getDisplayValue(),
+		]);	
+	}
+	
+	if (arr.length != 0){
+		template.print('<p><table border="1"><thead><tr><th width = 10% style="padding: 5px;" face="arial">Datum</th><th width = 20% style="padding: 5px; "face="arial">Omschrijving</th><th width = 20% style="padding: 5px;" face="arial">Categorie</th><th width = 10% style="padding: 5px;" face="arial">Bedrag excl BTW</th><th width = 10% style="padding: 5px;" face="arial">BTW</th><th width = 10% style="padding: 5px;" face="arial">Bedrag incl BTW</th><th width = 10% style="padding: 5px;" face="arial">Bankrekening medewerker</th></tr></thead>');
+		for (var i=0;i<arr.length;i++){
+			template.print('<tr>');
+			for (var j=0;j<7;j++){
+				template.print('<td valign="top" style="padding: 5px;" fac="arial">' + arr[i][j] + '</td>');
+			}
+			
+			
+			template.print('</tr>');
+		}
+		template.print('</table></p><hr/>');
+	}
+	
+
+})(current, template, email, email_action, event);]]></script>
+        <sys_class_name>sys_script_email</sys_class_name>
+        <sys_created_by>martijn.fieten</sys_created_by>
+        <sys_created_on>2017-09-13 12:12:05</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_id>27d150bbdb09c700e8937e400f961937</sys_id>
+        <sys_mod_count>18</sys_mod_count>
+        <sys_name>pg-getExpenseLines</sys_name>
+        <sys_package display_value="Expense Reports" source="x_pagr_exp_rp">92c15389db8d4300aa4fb34ffe96197c</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Expense Reports">92c15389db8d4300aa4fb34ffe96197c</sys_scope>
+        <sys_update_name>sys_script_email_27d150bbdb09c700e8937e400f961937</sys_update_name>
+        <sys_updated_by>jessica.snieder</sys_updated_by>
+        <sys_updated_on>2018-03-07 11:21:22</sys_updated_on>
+    </sys_script_email>
+</record_update>

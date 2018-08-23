@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_choice action="INSERT_OR_UPDATE" field="year" table="x_pagr_exp_rp_expense_reports" version="3">
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>year</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>2017</label>
+            <language>en</language>
+            <name>x_pagr_exp_rp_expense_reports</name>
+            <sequence>0</sequence>
+            <sys_created_by>system</sys_created_by>
+            <sys_created_on>2017-10-16 12:19:31</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>f0109ed6dbfdc34058fe76100f961921</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>system</sys_updated_by>
+            <sys_updated_on>2017-10-16 12:19:31</sys_updated_on>
+            <value>2017</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>year</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>2018</label>
+            <language>en</language>
+            <name>x_pagr_exp_rp_expense_reports</name>
+            <sequence>1</sequence>
+            <sys_created_by>system</sys_created_by>
+            <sys_created_on>2017-10-16 12:19:31</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>34109ed6dbfdc34058fe76100f961921</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>system</sys_updated_by>
+            <sys_updated_on>2017-10-16 12:19:31</sys_updated_on>
+            <value>2018</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>year</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>2019</label>
+            <language>en</language>
+            <name>x_pagr_exp_rp_expense_reports</name>
+            <sequence>2</sequence>
+            <sys_created_by>system</sys_created_by>
+            <sys_created_on>2017-10-16 12:19:31</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>74109ed6dbfdc34058fe76100f961921</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>system</sys_updated_by>
+            <sys_updated_on>2017-10-16 12:19:31</sys_updated_on>
+            <value>2019</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>year</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>2020</label>
+            <language>en</language>
+            <name>x_pagr_exp_rp_expense_reports</name>
+            <sequence>3</sequence>
+            <sys_created_by>system</sys_created_by>
+            <sys_created_on>2017-10-16 12:19:31</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>b4109ed6dbfdc34058fe76100f961921</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>system</sys_updated_by>
+            <sys_updated_on>2017-10-16 12:19:31</sys_updated_on>
+            <value>2020</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>year</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>2021</label>
+            <language>en</language>
+            <name>x_pagr_exp_rp_expense_reports</name>
+            <sequence>4</sequence>
+            <sys_created_by>system</sys_created_by>
+            <sys_created_on>2017-10-16 12:19:31</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>f4109ed6dbfdc34058fe76100f961921</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>system</sys_updated_by>
+            <sys_updated_on>2017-10-16 12:19:31</sys_updated_on>
+            <value>2021</value>
+        </sys_choice>
+        <sys_choice_set action="INSERT_OR_UPDATE">
+            <element>year</element>
+            <name>x_pagr_exp_rp_expense_reports</name>
+            <sys_class_name>sys_choice_set</sys_class_name>
+            <sys_created_by>system</sys_created_by>
+            <sys_created_on>2017-10-16 12:19:31</sys_created_on>
+            <sys_customer_update>false</sys_customer_update>
+            <sys_id>f8109ed6dbfdc34058fe76100f961921</sys_id>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_name>year</sys_name>
+            <sys_package display_value="Expense Reports" source="x_pagr_exp_rp">92c15389db8d4300aa4fb34ffe96197c</sys_package>
+            <sys_policy/>
+            <sys_replace_on_upgrade>true</sys_replace_on_upgrade>
+            <sys_scope display_value="Expense Reports">92c15389db8d4300aa4fb34ffe96197c</sys_scope>
+            <sys_update_name>sys_choice_x_pagr_exp_rp_expense_reports_year</sys_update_name>
+            <sys_updated_by>mark.manders</sys_updated_by>
+            <sys_updated_on>2017-10-17 10:15:15</sys_updated_on>
+        </sys_choice_set>
+    </sys_choice>
+</record_update>

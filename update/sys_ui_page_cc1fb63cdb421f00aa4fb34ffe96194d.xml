@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script/>
+        <description/>
+        <direct>false</direct>
+        <endpoint>x_pagr_exp_rp_open_receipt.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+
+
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+
+ <g:ui_form>
+
+<g2:evaluate>
+	var imageName = "${RP.getWindowProperties().imageName}";
+</g2:evaluate>
+
+	<img id="image_dialog" src="$[imageName]" style="display:block;max-width:800px"/>
+								
+ </g:ui_form>
+</j:jelly>]]></html>
+        <name>open_receipt</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>jessica.snieder</sys_created_by>
+        <sys_created_on>2018-05-11 06:29:05</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>cc1fb63cdb421f00aa4fb34ffe96194d</sys_id>
+        <sys_mod_count>72</sys_mod_count>
+        <sys_name>open_receipt</sys_name>
+        <sys_package display_value="Expense Reports" source="x_pagr_exp_rp">92c15389db8d4300aa4fb34ffe96197c</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Expense Reports">92c15389db8d4300aa4fb34ffe96197c</sys_scope>
+        <sys_update_name>sys_ui_page_cc1fb63cdb421f00aa4fb34ffe96194d</sys_update_name>
+        <sys_updated_by>jessica.snieder</sys_updated_by>
+        <sys_updated_on>2018-05-11 14:09:17</sys_updated_on>
+    </sys_ui_page>
+</record_update>

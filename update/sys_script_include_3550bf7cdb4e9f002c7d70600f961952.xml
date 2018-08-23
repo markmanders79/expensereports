@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_pagr_exp_rp.pg_getUniqueArrayValues</api_name>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>pg_getUniqueArrayValues</name>
+        <script><![CDATA[var pg_getUniqueArrayValues = Class.create();
+pg_getUniqueArrayValues.prototype = {
+    initialize: function() {
+    },
+	
+	unique: function(a) {
+    var seen = {};
+    return a.filter(function(item) {
+        return seen.hasOwnProperty(item) ? false : (seen[item] = true);
+    });
+},
+
+    type: 'pg_getUniqueArrayValues'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>peter.bodelier</sys_created_by>
+        <sys_created_on>2018-05-11 09:56:36</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>3550bf7cdb4e9f002c7d70600f961952</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>pg_getUniqueArrayValues</sys_name>
+        <sys_package display_value="Expense Reports" source="x_pagr_exp_rp">92c15389db8d4300aa4fb34ffe96197c</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Expense Reports">92c15389db8d4300aa4fb34ffe96197c</sys_scope>
+        <sys_update_name>sys_script_include_3550bf7cdb4e9f002c7d70600f961952</sys_update_name>
+        <sys_updated_by>peter.bodelier</sys_updated_by>
+        <sys_updated_on>2018-05-11 09:56:36</sys_updated_on>
+    </sys_script_include>
+</record_update>

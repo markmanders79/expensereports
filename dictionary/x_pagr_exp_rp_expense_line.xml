@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Expense Line" max_length="40" name="x_pagr_exp_rp_expense_line" type="collection">
+        <element attributes="omit_sys_original=true,serializer=com.glide.script.PriceXMLSerializer" label="Total amount" mandatory="true" max_length="20" name="amount" type="price"/>
+        <element attributes="omit_sys_original=true,serializer=com.glide.script.PriceXMLSerializer" label="Amount without tax" max_length="20" name="amount_without_tax" type="price"/>
+        <element attributes="edge_encryption_enabled=true" choice="3" default="not requested" label="Approval" max_length="40" name="approval" read_only="true" type="string">
+            <choice>
+                <element label="Nog niet verzocht" language="nl" sequence="0" value="not requested"/>
+                <element label="Not Yet Requested" sequence="0" value="not requested"/>
+                <element label="Requested" sequence="1" value="requested"/>
+                <element label="Wacht op goedkeuring" language="nl" sequence="1" value="requested"/>
+                <element label="Awaiting Review" sequence="2" value="awaiting review"/>
+                <element label="Wacht op review" language="nl" sequence="2" value="awaiting review"/>
+                <element label="Geweigerd" language="nl" sequence="3" value="rejected"/>
+                <element label="Rejected" sequence="3" value="rejected"/>
+                <element label="Approved" sequence="4" value="approved"/>
+                <element label="Goedgekeurd" language="nl" sequence="4" value="approved"/>
+            </choice>
+        </element>
+        <element attributes="edge_encryption_enabled=true" choice="1" label="Category" mandatory="true" max_length="40" name="category" reference="x_pagr_exp_rp_expense_category" reference_qual="active=true^EQ" reference_qual_condition="active=true^EQ" type="reference">
+            <choice/>
+        </element>
+        <element attributes="edge_encryption_enabled=true" choice="1" label="Customer involved?" max_length="40" name="customer_involved" type="string">
+            <choice>
+                <element label="Ja" language="nl" sequence="1" value="yes"/>
+                <element label="Yes" sequence="1" value="yes"/>
+                <element label="Nee" language="nl" sequence="2" value="no"/>
+                <element label="No" sequence="2" value="no"/>
+            </choice>
+        </element>
+        <element label="Date" mandatory="true" max_length="40" name="date" type="glide_date"/>
+        <element attributes="edge_encryption_enabled=true" label="Description" mandatory="true" max_length="100" name="description" type="string"/>
+        <element label="Expense Report" max_length="40" name="expense_report" reference="x_pagr_exp_rp_expense_reports" type="reference"/>
+        <element attributes="edge_encryption_enabled=true" label="Name customer" max_length="100" name="name_customer" type="string"/>
+        <element attributes="ignore_filter_on_new=true" default="javascript:global.getNextObjNumberPadded();" label="Nummer" max_length="40" name="number" read_only="true" type="string"/>
+        <element label="Paid by company bank card" max_length="40" name="paid_by_company_bank_card" type="boolean"/>
+        <element label="Paid by company credit card" max_length="40" name="paid_by_company_credit_card" type="boolean"/>
+        <element label="Reason" max_length="100" name="reason" type="string"/>
+        <element attributes="pdf_cell_type=image" label="Receipt" max_length="40" name="receipt" type="user_image"/>
+        <element attributes="omit_sys_original=true,serializer=com.glide.script.PriceXMLSerializer" label="Tax amount" max_length="20" name="tax_amount" type="price"/>
+        <element choice="1" label="Tax percent" max_length="15" name="tax_percent" type="decimal">
+            <choice>
+                <element label="21" sequence="0" value="21"/>
+                <element label="6" sequence="1" value="6"/>
+                <element label="0" sequence="2" value="0"/>
+            </choice>
+        </element>
+        <index name="index">
+            <element name="expense_report"/>
+        </index>
+        <index name="index2">
+            <element name="category"/>
+        </index>
+    </element>
+</database>

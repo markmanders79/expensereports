@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_email">
+    <sys_script_email action="INSERT_OR_UPDATE">
+        <name>pg-getExpenseLinesSummary</name>
+        <new_lines_to_html>false</new_lines_to_html>
+        <script><![CDATA[(function runMailScript(/* GlideRecord */ current, /* TemplatePrinter */ template,
+          /* Optional EmailOutbound */ email, /* Optional GlideRecord */ email_action,
+          /* Optional GlideRecord */ event) {
+
+          // Add your code here
+	var catArr = [];
+	var arr = [];
+	
+	var gr = new GlideRecord("x_pagr_exp_rp_expense_line");
+	gr.orderBy('category');
+	gr.addQuery("expense_report", current.sys_id);
+	gr.addQuery("approval", "approved");
+	gr.query();
+	while (gr.next()) {
+		
+		catArr.push([
+		gr.category.toString(),
+		]);	
+	}
+	
+	
+	var	uniqueCat = new x_pagr_exp_rp.pg_getUniqueArrayValues().unique(catArr);
+//gs.info("pg-getExpenseLinesSummary uniqueCat: " + uniqueCat + " type " + typeof uniqueCat);
+
+	var amount_without_tax_total = 0;
+	var tax_amount_total = 0;
+	var amount_total = 0;
+	
+for (var j = 0; j < uniqueCat.length; j++) {
+	//gs.info("pg-getExpenseLinesSummary uniqueCat for loop: " + uniqueCat[j]);
+
+	var amount_without_tax = 0;
+	var tax_amount = 0;
+	var amount = 0;
+	
+	
+var gr2 = new GlideRecord("x_pagr_exp_rp_expense_line");
+	gr2.addQuery('category', uniqueCat[j]);
+	gr2.addQuery("expense_report", current.sys_id);
+	gr2.addQuery("approval", "approved");
+	gr2.query();
+	//gs.info("pg-getExpenseLinesSummary gr2 query : " + gr2.getEncodedQuery());
+	while (gr2.next()) {
+		amount_without_tax =  amount_without_tax +	parseFloat(gr2.amount_without_tax.getSessionValue());
+		tax_amount =  tax_amount +	parseFloat(gr2.tax_amount.getSessionValue());
+		amount =  amount +	parseFloat(gr2.amount.getSessionValue());
+		
+		amount_without_tax_total =  amount_without_tax_total +	parseFloat(gr2.amount_without_tax.getSessionValue());
+		tax_amount_total =  tax_amount_total +	parseFloat(gr2.tax_amount.getSessionValue());
+		amount_total =  amount_total +	parseFloat(gr2.amount.getSessionValue());
+	}
+	
+	//gs.info("pg-getExpenseLinesSummary gr2 amount_without_tax : " + amount_without_tax);
+	//gs.info("pg-getExpenseLinesSummary gr2 tax_amount : " + tax_amount);
+	//gs.info("pg-getExpenseLinesSummary gr2 amount : " + amount);
+	
+	arr.push([
+		gr2.category.getDisplayValue(),
+		"€" + amount_without_tax.toFixed(2),
+		"€" + tax_amount.toFixed(2),
+		"€" + amount.toFixed(2),
+		]);	
+		
+}
+//gs.info("pg-getExpenseLinesSummary array : " + arr);
+	
+	if (arr.length != 0){
+		template.print('<p><table border="1"><thead><tr><th width = 20% style="padding: 5px;" face="arial">Categorie</th><th width = 10% style="padding: 5px;" face="arial">Bedrag excl BTW</th><th width = 10% style="padding: 5px;" face="arial">BTW</th><th width = 10% style="padding: 5px;" face="arial">Bedrag incl BTW</th>');
+		for (var i=0;i<arr.length;i++){
+			template.print('<tr>');
+			for (var k=0;k<4;k++){
+				template.print('<td valign="top" style="padding: 5px;" fac="arial">' + arr[i][k] + '</td>');
+			}
+			template.print('</tr>');
+			
+		}
+		template.print('<tr><td width = 20% style="font-weight:bold; padding: 5px;" face="arial">Totaal</td><td width = 10% style="font-weight:bold; padding: 5px;" face="arial">€'+amount_without_tax_total.toFixed(2)+'</td><td width = 10% style="font-weight:bold; padding: 5px;" face="arial">€'+tax_amount_total.toFixed(2)+'</td><td width = 10% style="font-weight:bold; padding: 5px;" face="arial">€'+amount_total.toFixed(2)+'</td></tr></table></p><hr/>');
+		
+	}
+	
+
+})(current, template, email, email_action, event);]]></script>
+        <sys_class_name>sys_script_email</sys_class_name>
+        <sys_created_by>peter.bodelier</sys_created_by>
+        <sys_created_on>2018-05-11 08:37:41</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_id>1d6e53bcdb0e9f002c7d70600f961988</sys_id>
+        <sys_mod_count>34</sys_mod_count>
+        <sys_name>pg-getExpenseLinesSummary</sys_name>
+        <sys_package display_value="Expense Reports" source="x_pagr_exp_rp">92c15389db8d4300aa4fb34ffe96197c</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Expense Reports">92c15389db8d4300aa4fb34ffe96197c</sys_scope>
+        <sys_update_name>sys_script_email_1d6e53bcdb0e9f002c7d70600f961988</sys_update_name>
+        <sys_updated_by>peter.bodelier</sys_updated_by>
+        <sys_updated_on>2018-05-11 11:15:17</sys_updated_on>
+    </sys_script_email>
+</record_update>

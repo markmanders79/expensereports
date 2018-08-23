@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update sys_domain="global" table="sys_script_client">
+    <sys_script_client action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <applies_extended>false</applies_extended>
+        <condition/>
+        <description/>
+        <field>amount</field>
+        <global>true</global>
+        <messages/>
+        <name>pg-calculateAmountTotal</name>
+        <order/>
+        <script><![CDATA[function onChange(control, oldValue, newValue, isLoading, isTemplate) {
+	if (isLoading || newValue === '') {
+		return;
+	}
+	var amount = g_form.getValue('amount').split(";");
+	var taxPercentage = g_form.getIntValue('tax_percent');
+	var taxAmount = g_form.getValue('tax_amount').split(";");
+	var amountWithoutTax = g_form.getValue('amount_without_tax').split(";");
+	var fullPercentage = 100 + taxPercentage;
+	
+	taxCalc(amount[1], taxPercentage);
+	
+	function taxCalc(correctAmountString, tax){
+		var alreadyPerfect = new RegExp(/^\d{1,3}(\.?\d{3})?(\.?\d{3})?\,\d\d\,\d\d$/);
+			var currencyCheck = new RegExp(/^\d{1,3}(\.?\d{3})?(\.?\d{3})?(\,\d\d?)?$/);
+				var commaCheck = new RegExp(/^.*\,.*$/);
+				var oneDigitAfterComma = new RegExp(/^.*\,\d$/);
+				
+				var removedDots = correctAmountString.split('.').join("");
+				var changedCommatoDot = removedDots.replace(",", ".");
+				var amount = parseFloat(changedCommatoDot);
+				
+				var fullprecentage = 100 + tax;
+				
+				var taxAmount = Math.round((amount / fullprecentage * tax)* 100) / 100;
+				
+				var stringTaxAmount = String(taxAmount);
+				var commaTaxAmount = stringTaxAmount.replace(".", ",");
+				if(!commaCheck.test(commaTaxAmount)){
+					g_form.setValue('tax_amount', (commaTaxAmount + ',00'));
+				}else if(oneDigitAfterComma.test(commaTaxAmount)){
+					g_form.setValue('tax_amount', (commaTaxAmount + '0'));
+				}else{
+					g_form.setValue('tax_amount', commaTaxAmount);
+				}
+				
+				var AmountwithoutTax = Math.round((amount / fullprecentage * 100)*100) / 100;
+				
+				var stringAmountwithoutTax = String(AmountwithoutTax);
+				var commaAmountwithoutTax = stringAmountwithoutTax.replace(".", ",");
+				if(!commaCheck.test(commaAmountwithoutTax)){
+					g_form.setValue('amount_without_tax', (commaAmountwithoutTax + ',00'));
+				}else if(oneDigitAfterComma.test(commaTaxAmount)){
+					g_form.setValue('amount_without_tax', (commaAmountwithoutTax + ',0'));
+				}else{
+					g_form.setValue('amount_without_tax', (commaAmountwithoutTax));
+				}
+			}
+		}]]></script>
+        <sys_class_name>sys_script_client</sys_class_name>
+        <sys_created_by>jacco.luijt</sys_created_by>
+        <sys_created_on>2017-10-17 18:24:22</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>322d6c7edbfd8f00e8937e400f961959</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>pg-calculateAmountTotal</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Expense Reports" source="x_pagr_exp_rp">92c15389db8d4300aa4fb34ffe96197c</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Expense Reports">92c15389db8d4300aa4fb34ffe96197c</sys_scope>
+        <sys_update_name>sys_script_client_322d6c7edbfd8f00e8937e400f961959</sys_update_name>
+        <sys_updated_by>jacco.luijt</sys_updated_by>
+        <sys_updated_on>2017-10-17 18:24:36</sys_updated_on>
+        <table>x_pagr_exp_rp_expense_line</table>
+        <type>onChange</type>
+        <ui_type>0</ui_type>
+        <view/>
+    </sys_script_client>
+</record_update>

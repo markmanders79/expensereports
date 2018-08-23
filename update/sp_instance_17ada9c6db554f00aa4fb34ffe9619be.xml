@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_instance">
+    <sp_instance action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <class_name/>
+        <color>default</color>
+        <css/>
+        <glyph/>
+        <id/>
+        <order>1</order>
+        <roles/>
+        <short_description/>
+        <size>md</size>
+        <sp_column display_value="1">adade9c6db554f00aa4fb34ffe961952</sp_column>
+        <sp_widget display_value="PaphosPortal My HR Declarations">8b6cad46db554f00aa4fb34ffe9619e7</sp_widget>
+        <sys_class_name>sp_instance</sys_class_name>
+        <sys_created_by>gerard.laheij</sys_created_by>
+        <sys_created_on>2017-09-20 18:39:22</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_id>17ada9c6db554f00aa4fb34ffe9619be</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Expense Reports" source="x_pagr_exp_rp">92c15389db8d4300aa4fb34ffe96197c</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Expense Reports">92c15389db8d4300aa4fb34ffe96197c</sys_scope>
+        <sys_update_name>sp_instance_17ada9c6db554f00aa4fb34ffe9619be</sys_update_name>
+        <sys_updated_by>gerard.laheij</sys_updated_by>
+        <sys_updated_on>2018-01-04 08:14:41</sys_updated_on>
+        <title/>
+        <url/>
+        <widget_parameters><![CDATA[{
+	"start_year": {
+		"value": 2017,
+		"displayValue": "2017"
+	}
+}]]></widget_parameters>
+    </sp_instance>
+</record_update>

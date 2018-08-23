@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_ng_template">
+    <sp_ng_template action="INSERT_OR_UPDATE">
+        <id>pp_my_hr_declarations_declaration.html</id>
+        <sp_widget display_value="PaphosPortal My HR Declarations">8b6cad46db554f00aa4fb34ffe9619e7</sp_widget>
+        <sys_class_name>sp_ng_template</sys_class_name>
+        <sys_created_by>gerard.laheij</sys_created_by>
+        <sys_created_on>2017-09-20 18:35:44</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_id>dacca586db554f00aa4fb34ffe9619f0</sys_id>
+        <sys_mod_count>66</sys_mod_count>
+        <sys_name>pp_my_hr_declarations_declaration.html</sys_name>
+        <sys_package display_value="Expense Reports" source="x_pagr_exp_rp">92c15389db8d4300aa4fb34ffe96197c</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Expense Reports">92c15389db8d4300aa4fb34ffe96197c</sys_scope>
+        <sys_update_name>sp_ng_template_dacca586db554f00aa4fb34ffe9619f0</sys_update_name>
+        <sys_updated_by>jessica.snieder</sys_updated_by>
+        <sys_updated_on>2018-07-25 06:57:16</sys_updated_on>
+        <template><![CDATA[<div>
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()"><i class="fa fa-close"></i></button>
+    <h4 class="m-n" style="text-align: center;">${{{declaration.sys_id == '-1' ? 'Add declaration' : 'Declaration'}}}</h4>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <fieldset class="form-group">
+          <label for="fld_category" title="${Category}" class="field-label capitalize">
+            <span class="field-decorations"><span style="padding-right: .25em" title="Mandatory" class="fa fa-asterisk mandatory" ng-class="{'mandatory-filled': declaration.edit.category.sys_id}"></span></span>
+            ${Category}
+          </label>
+          <select ng-model="declaration.edit.category" ng-options='cat as cat.category for cat in data.categories' id="fld_category" class="form-control" ng-disabled="declaration.sys_id != '-1' && declaration.approval_value != 'not requested' && declaration.approval_value != 'awaiting review'">
+          </select>
+        </fieldset>
+         <fieldset class="form-group" ng-show="declaration.edit.category.sys_id == '9708e311db498300aa4fb34ffe9619b2'|| declaration.edit.category.sys_id == '9f08e311db498300aa4fb34ffe9619b2'">
+          <label for="fld_customer_involved" title="${Customer involved?}" class="field-label">
+            <span class="field-decorations"><span style="padding-right: .25em" title="Mandatory" class="fa fa-asterisk mandatory" ng-class="{'mandatory-filled': declaration.edit.customer_involved}"></span></span>
+            ${Customer involved?}
+          </label>
+          <select ng-model="declaration.edit.customer_involved" id="fld_customer_involved" class="form-control" ng-disabled="declaration.sys_id != '-1' && declaration.approval_value != 'not requested' && declaration.approval_value != 'awaiting review'">
+            <option value=""></option>
+            <option value="yes">${Yes}</option>
+            <option value="no">${No}</option>
+          </select>
+        </fieldset>
+        <fieldset class="form-group" ng-show="(declaration.edit.category.sys_id == '9708e311db498300aa4fb34ffe9619b2'|| declaration.edit.category.sys_id == '9f08e311db498300aa4fb34ffe9619b2') && declaration.edit.customer_involved == 'yes'">
+          <label for="fld_name_customer" title="${Customer name}" class="field-label">
+            <span class="field-decorations"><span style="padding-right: .25em" title="Mandatory" class="fa fa-asterisk mandatory" ng-class="{'mandatory-filled': declaration.edit.name_customer}"></span></span>
+            ${Customer name}
+          </label>
+          <input type="text" ng-model="declaration.edit.name_customer" maxlength="100" id="fld_name_customer" data-type="string" placeholder="${Customer name}" class="form-control" ng-model-options="{allowInvalid: false}" ng-disabled="declaration.sys_id != '-1' && declaration.approval_value != 'not requested' && declaration.approval_value != 'awaiting review'" />
+        </fieldset>
+        <fieldset class="form-group">
+          <label for="fld_description" title="${Description}" class="field-label">
+            <span class="field-decorations"><span style="padding-right: .25em" title="Mandatory" class="fa fa-asterisk mandatory" ng-class="{'mandatory-filled': declaration.edit.description}"></span></span>
+            ${Description}
+          </label>
+          <textarea ng-model="declaration.edit.description" maxlength="400" autocomplete="off" id="fld_description" data-type="string" placeholder="${Description}" class="form-control" ng-model-options="{allowInvalid: false}" ng-disabled="declaration.sys_id != '-1' && declaration.approval_value != 'not requested' && declaration.approval_value != 'awaiting review'"></textarea>
+        </fieldset>
+        <fieldset class="form-group">
+          <label for="fld_date" title="${Date}" class="field-label">
+            <span class="field-decorations"><span style="padding-right: .25em" title="Mandatory" class="fa fa-asterisk mandatory" ng-class="{'mandatory-filled': declaration.edit.date}"></span></span>
+            ${Date}
+          </label>
+          <p class="input-group">
+            <input ng-model="declaration.edit.date" id="fld_date" type="text" class="datepickerinput form-control" uib-datepicker-popup="dd.MM.yyyy" is-open="date.opened" datepicker-options="date.options" close-text="${Close}" ng-disabled="declaration.sys_id != '-1' && declaration.approval_value != 'not requested' && declaration.approval_value != 'awaiting review'" />
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="date.opened = true"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+          </p>
+        </fieldset>
+        <fieldset class="form-group">
+          <label for="fld_amount" title="${Amount (with tax)}" class="field-label">
+            <span class="field-decorations"><span style="padding-right: .25em" title="Mandatory" class="fa fa-asterisk mandatory" ng-class="{'mandatory-filled': declaration.edit.amount}"></span></span>
+            ${Amount (with tax)}
+          </label>
+          <div class="input-group">
+            <div class="input-group-addon">€</div>
+            <input ng-model="declaration.edit.amount" maxlength="50" autocomplete="off" id="fld_amount" data-type="string" placeholder="0.00" class="form-control" ng-model-options="{allowInvalid: false}" ng-pattern="/^[0-9]{1,4}([.,]{1}[0-9]{2})?$/" ng-disabled="declaration.sys_id != '-1' && declaration.approval_value != 'not requested' && declaration.approval_value != 'awaiting review'" ng-change="onAmountChange()">
+          </div>
+        </fieldset>
+        <fieldset class="form-group" ng-hide="declaration.edit.category.sys_id == '9308e311db498300aa4fb34ffe9619b3' || declaration.edit.category.sys_id == '9708e311db498300aa4fb34ffe9619b2'">
+          <label for="fld_tax" title="${Tax}" class="field-label">
+            <span class="field-decorations"><span style="padding-right: .25em" title="Mandatory" class="fa fa-asterisk mandatory" ng-class="{'mandatory-filled': declaration.edit.tax}"></span></span>
+            ${Tax}
+          </label>
+          <select ng-model="declaration.edit.tax" id="fld_tax" class="form-control" ng-disabled="declaration.sys_id != '-1' && declaration.approval_value != 'not requested' && declaration.approval_value != 'awaiting review'">
+            <option value=""></option>
+            <option value="21">21</option>
+            <option value="6">6</option>
+            <option value="0">0</option>
+          </select>
+          <div>${If no tax is identified on the receipt or the costs are made abroad, select 0%}</div>
+        </fieldset>
+        <!--<div class="checkbox" ng-class="{'disabled': declaration.sys_id != '-1' && declaration.approval_value != 'not requested' && declaration.approval_value != 'awaiting review'}">
+          <label title="${Check the box if the declaration has been paid with the Paphos credit card}">
+            <input type="checkbox" ng-model="declaration.edit.credit_card" ng-disabled="declaration.sys_id != '-1' && declaration.approval_value != 'not requested' && declaration.approval_value != 'awaiting review'" ng-change="checkPayment( 'credit_card' )">
+            ${Paid by company credit card}
+          </label>
+        </div>
+        <div class="checkbox" ng-class="{'disabled': declaration.sys_id != '-1' && declaration.approval_value != 'not requested' && declaration.approval_value != 'awaiting review'}">
+          <label title="${Check the box if the declaration has been paid with the Paphos bank card}">
+            <input type="checkbox" ng-model="declaration.edit.bank_card" ng-disabled="declaration.sys_id != '-1' && declaration.approval_value != 'not requested' && declaration.approval_value != 'awaiting review'" ng-change="checkPayment( 'bank_card' )">
+            ${Paid by company bank card}
+          </label>
+        </div>-->
+        <div class="user_image" ng-if="declaration.edit.receipt != ''">
+          <a href="javascript:void(0)" ng-click="onShowReceipt(declaration.edit.receipt)">${Receipt}</a>
+        </div>
+        <div ng-if="declaration.sys_id == '-1' || declaration.approval_value == 'not requested' || declaration.approval_value == 'awaiting review'">
+          <label for="fld_receipt" title="${Click to add a receipt}">
+            <span class="field-decorations"><span style="padding-right: .25em" title="Mandatory" class="fa fa-asterisk mandatory" ng-class="{'mandatory-filled': attachmentMandatory()}"></span></span>
+            ${Receipt}
+          </label>
+          <input id="fld_receipt" type="file" accept=".jpg, .jpeg, .png" onchange="angular.element(this).scope().onReceiptChange()" />
+          <div>${Only insert images in high quality and no reflections are visible}</div>
+        </div>
+        <div class="m-t">${Expenses paid by company card do not have to be submitted via this form, please leave the receipt at the Backoffice}</div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button ng-disabled="busy" ng-click="cancel()" class="btn btn-default">${Close}</button>
+    <button ng-if="declaration.approval_value == 'not requested' || declaration.approval_value == 'awaiting review'" ng-disabled="!canSaveDeclaration()" ng-click="saveDeclaration(false)" class="btn btn-primary">${Save}</button>
+    <button ng-if="declaration.sys_id == '-1'" ng-disabled="!canSaveDeclaration()" ng-click="saveDeclaration(false)" class="btn btn-primary">${Save}</button>
+    <button ng-if="declaration.sys_id == '-1'" ng-disabled="!canSaveDeclaration()" ng-click="saveDeclaration(true)" class="btn btn-primary">${Save & Add new declaration}</button>
+  </div>
+</div>]]></template>
+    </sp_ng_template>
+</record_update>

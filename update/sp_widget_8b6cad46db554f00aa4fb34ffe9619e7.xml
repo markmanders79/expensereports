@@ -1,0 +1,798 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[function ( $scope, spUtil, $uibModal, $document, $element, $timeout, snAttachmentHandler ) {
+	var c = this;
+	var dlg_instance, dlg_receipt;
+	$scope.busy = false;
+
+	$scope.onSelectYear = function( $event, year ) {
+		$event.stopPropagation();
+		$event.preventDefault();
+
+		if ( year != $scope.data.year ) {
+			$scope.busy = true;
+			$scope.data.year = year;
+			$scope.server.update().then( function( response ) {
+				$scope.data = response;
+				//				$( "section.page" ).getNiceScroll().resize();
+				$scope.busy = false;
+			});
+		}
+	}
+
+	$scope.onSelectMonth = function( $event, month ) {
+		$event.stopPropagation();
+		$event.preventDefault();
+
+		if ( month + 1 != $scope.data.month ) {
+			$scope.busy = true;
+			$scope.data.month = month + 1;
+			$scope.server.update().then( function( response ) {
+				$scope.data = response;
+				//				$( "section.page" ).getNiceScroll().resize();
+				$scope.busy = false;
+			});
+		}
+	}
+
+	$scope.onAddReportClick = function( $event ) {
+		$event.stopPropagation();
+		$event.preventDefault();
+
+		if ( !$scope.busy )
+			$scope.showReportForm( null );
+	}
+
+	$scope.onEditReportClick = function( $event, report ) {
+		$event.stopPropagation();
+		$event.preventDefault();
+
+		if ( !$scope.busy )
+			$scope.showReportForm( report );
+	}
+
+	$scope.showReportForm = function( report ) {
+		var parentElem = angular.element( $document[0].querySelector( '.pp-declarations' ) );
+
+		if ( report ) {
+			$scope.report = report;
+			$scope.report.edit = {};
+			$scope.report.edit.year = report.year;
+			$scope.report.edit.month = report.month;
+		} else {
+			$scope.report = { sys_id: '-1' };
+			$scope.report.edit = {};
+			$scope.report.edit.year = $scope.data.year.toString();
+			$scope.report.edit.month = $scope.data.month.toString();
+		}
+
+		var tmpl = '';
+		tmpl += '<div>';
+		tmpl += '<div class="modal-header">';
+		tmpl += '<button type="button" class="close" ng-click="cancel()"><i class="fa fa-close"></i></button>';
+		if ( report ) {
+			tmpl += '<h4 class="m-n" style="text-align: center;">${Edit report}</h4>';
+		} else {
+			tmpl += '<h4 class="m-n" style="text-align: center;">${Add new report}</h4>';
+		}
+		tmpl += '</div>';
+		tmpl += '<div class="modal-body">';
+		tmpl += '<fieldset class="form-group">';
+		tmpl += '<label for="fld_year" title="${Year}" class="field-label">';
+		tmpl += '<span class="field-decorations"><span style="padding-right: .25em" title="Mandatory" class="fa fa-asterisk mandatory" ng-class="{\'mandatory-filled\': report.edit.year}"></span></span>';
+		tmpl += '${Year}';
+		tmpl += '</label>';
+		if ( report && report.state != '301' && report.state != '303' ) {
+			tmpl += '<select ng-model="report.edit.year" id="fld_year" class="form-control" disabled>';
+		} else {
+			tmpl += '<select ng-model="report.edit.year" id="fld_year" class="form-control">';
+		}
+		for ( var i = 0; i < $scope.data.years.length; i++ ) {
+			tmpl += '<option value="' + $scope.data.years[i] + '">' + $scope.data.years[i] + '</option>';
+		}
+		tmpl += '</select>';
+		tmpl += '</fieldset>';
+		tmpl += '<fieldset class="form-group">';
+		tmpl += '<label for="fld_month" title="${Month}" class="field-label">';
+		tmpl += '<span class="field-decorations"><span style="padding-right: .25em" title="Mandatory" class="fa fa-asterisk mandatory" ng-class="{\'mandatory-filled\': report.edit.month}"></span></span>';
+		tmpl += '${Month}';
+		tmpl += '</label>';
+		if ( report && report.state != '301' && report.state != '303' ) {
+			tmpl += '<select ng-model="report.edit.month" id="fld_month" class="form-control" disabled>';
+		} else {
+			tmpl += '<select ng-model="report.edit.month" id="fld_month" class="form-control">';
+		}
+		for ( var i = 0; i < $scope.data.months.length; i++ ) {
+			tmpl += '<option value="' + $scope.data.months[i].value + '">' + $scope.data.months[i].label + '</option>';
+		}
+		tmpl += '</select>';
+		tmpl += '</fieldset>';
+		tmpl += '</div>';
+		tmpl += '<div class="modal-footer">';
+		tmpl += '<button ng-disabled="busy" ng-click="cancel()" class="btn btn-default">${Close}</button>';
+		if ( ( report && report.state == '301' && report.state != '303' ) || !report ) {
+			if ( report ) {
+				tmpl += '<button ng-disabled="busy || !report.edit.year || !report.edit.month" ng-click="saveReport()" class="btn btn-primary">${Save}</button>';
+			} else {
+				tmpl += '<button ng-disabled="busy || !report.edit.year || !report.edit.month" ng-click="saveReport()" class="btn btn-primary">${Add}</button>';
+			}
+		}
+		tmpl += '</div>';
+		tmpl += '</div>';
+
+		var opts;
+		opts = {
+			size: 'md',
+			appendTo: parentElem,
+			scope: $scope,
+			backdrop: 'static',
+			template: tmpl
+		};
+
+		dlg_instance = $uibModal.open( opts );
+	}
+
+	$scope.saveReport = function() {
+		$scope.busy = true;
+		$scope.data.action = 'save_report';
+		$scope.data.report = $scope.report;
+		$scope.server.update().then( function( response ) {
+			delete $scope.data.action;
+			delete $scope.report;
+			delete $scope.data.report;
+			dlg_instance.dismiss( 'cancel' );
+			spUtil.addInfoMessage( '${Your report has been saved}' );
+			$scope.busy = false;
+		});
+	}
+
+	$scope.onSubmitReportClick = function( $event, report ) {
+		$event.stopPropagation();
+		$event.preventDefault();
+
+		$scope.busy = true;
+		$scope.data.report = report;
+		$scope.data.action = 'submit_report';
+		$scope.server.update().then( function( response ) {
+			spUtil.addInfoMessage( '${The report has been submitted}' );
+			delete $scope.data.report;
+			$scope.busy = false;
+		});
+	}
+
+	$scope.onCommentReportClick = function( $event, report ) {
+		$event.stopPropagation();
+		$event.preventDefault();
+
+		$scope.busy = true;
+		$scope.data.report = report;
+		$scope.data.action = 'comment_report';
+		$scope.server.update().then( function( response ) {
+			spUtil.addInfoMessage( '${The comments has been submitted}' );
+			delete $scope.data.report;
+			$scope.busy = false;
+		});
+	}
+
+	$scope.onAddDeclarationClick = function( $event, report ) {
+		$event.stopPropagation();
+		$event.preventDefault();
+
+		if ( !$scope.busy )
+			$scope.showDeclarationForm( report, null );
+	}
+
+	$scope.onDeclarationClick = function( $event, report, declaration ) {
+		$event.stopPropagation();
+		$event.preventDefault();
+
+		if ( !$scope.busy )
+			$scope.showDeclarationForm( report, declaration );
+	}
+
+	$scope.showDeclarationForm = function( report, declaration ) {
+		var parentElem = angular.element( $document[0].querySelector( '.pp-declarations' ) );
+
+		if ( report )
+			$scope.report = report;
+		if ( declaration ) {
+			$scope.declaration = declaration;
+			$scope.declaration.edit = {};
+			for ( var i = 0; i < $scope.data.categories.length; i++ ) {
+				if ( $scope.data.categories[i].sys_id == declaration.category )
+					$scope.declaration.edit.category = $scope.data.categories[i];
+			}
+			$scope.declaration.edit.description = declaration.description;
+			$scope.declaration.edit.date = moment(declaration.date).format( 'DD.MM.YYYY' );
+			$scope.declaration.edit.date = new Date(declaration.date);
+			$scope.declaration.edit.amount = declaration.amount;
+			$scope.declaration.edit.tax = declaration.tax_percent;
+			$scope.declaration.edit.customer_involved = declaration.customer_involved;
+			$scope.declaration.edit.name_customer = declaration.name_customer;
+			//	$scope.declaration.edit.credit_card = declaration.paid_by_company_credit_card == 'true' ? true : false;
+			//	$scope.declaration.edit.bank_card = declaration.paid_by_company_bank_card == 'true' ? true : false;
+			$scope.declaration.edit.receipt = declaration.receipt;
+			$scope.declaration.edit.has_receipt = !!declaration.receipt;
+		}	else {
+			$scope.declaration = { sys_id: '-1' };
+			$scope.declaration.edit = {};
+			$scope.declaration.edit.category = {};
+			$scope.declaration.edit.description = '';
+			$scope.declaration.edit.date = '';
+			$scope.declaration.edit.amount = '';
+			$scope.declaration.edit.tax = '';
+			$scope.declaration.edit.credit_card = false;
+			$scope.declaration.edit.bank_card = false;
+			$scope.declaration.edit.receipt = '';
+			$scope.declaration.edit.has_receipt = false;
+			$scope.declaration.edit.customer_involved = '';
+			$scope.declaration.edit.name_customer = '';
+		}
+
+		$scope.date = {
+			opened: false,
+			options: {
+				formatYear: 'yy',
+				maxDate: new Date(report.year, 11, 31),
+				minDate: new Date(report.year, 0, 1),
+				startingDay: 1
+			}
+		};
+
+		var opts;
+		opts = {
+			size: 'md',
+			appendTo: parentElem,
+			scope: $scope,
+			backdrop: 'static',
+			templateUrl: 'pp_my_hr_declarations_declaration.html'
+		};
+
+		dlg_instance = $uibModal.open( opts );
+	}
+
+	$scope.saveDeclaration = function( addNew ) {
+		$scope.busy = true;
+		$scope.data.action = 'save_declaration';
+		$scope.data.report = $scope.report;
+		$scope.data.declaration = $scope.declaration;
+		$scope.server.update().then( function( response ) {
+			delete $scope.data.action;
+			if ( response.declaration_id ) {
+				var $el = $element.find('input[type=file]#fld_receipt');
+				if ( $el.length > 0 && $el[0].files.length > 0 ) {
+					snAttachmentHandler.create( 'x_pagr_exp_rp_expense_line', response.declaration_id ).uploadAttachment( $el[0].files[0], { sysparm_fieldname: "receipt" }).then( function( response ) {
+						delete $scope.declaration;
+						delete $scope.data.declaration;
+						spUtil.update( $scope ).then( function( response ) {
+							dlg_instance.dismiss( 'cancel' );
+							if ( addNew )
+								$scope.showDeclarationForm( $scope.report, null );
+							else {
+								delete $scope.report;
+								delete $scope.data.report;
+								spUtil.addInfoMessage( '${The declaration has been saved}' );
+							}
+							$scope.busy = false;
+						});
+					});
+				} else {
+					delete $scope.declaration;
+					delete $scope.data.declaration;
+					dlg_instance.dismiss( 'cancel' );
+					if ( addNew )
+						$scope.showDeclarationForm( $scope.report, null );
+					else {
+						delete $scope.report;
+						delete $scope.data.report;
+						spUtil.addInfoMessage( '${The declaration has been saved}' );
+					}
+					$scope.busy = false;
+				}
+			}
+		});
+	}
+
+	$scope.cancel = function() {
+		dlg_instance.dismiss( 'cancel' );
+		$timeout( function() {
+			delete $scope.report;
+			delete $scope.declaration;
+		}, 250 );
+	}
+
+	$scope.onReceiptChange = function() {
+		$scope.$apply();
+	}
+
+	$scope.attachmentMandatory = function() {
+		if ( $scope.declaration.sys_id != '-1' )
+			return 'mandatory-filled';
+		else {
+			if ($scope.hasAttachment())
+				return 'mandatory-filled';
+			else
+				return '';
+		}
+	}
+
+	$scope.hasAttachment = function() {
+		var $el = $element.find('input[type=file]#fld_receipt');
+		return ( $el[0].files.length > 0 );
+	}
+
+	$scope.checkPayment = function( field ) {
+		if ( field == 'credit_card' && $scope.declaration.edit.credit_card ) {
+			$scope.declaration.edit.bank_card = false;
+		} else if ( field == 'bank_card' && $scope.declaration.edit.bank_card ) {
+			$scope.declaration.edit.credit_card = false;
+		}
+	}
+
+	$scope.onShowReceipt = function( receipt ) {
+		var parentElem = angular.element( $document[0].querySelector( '.pp-declarations' ) );
+
+		var tmpl = '';
+		tmpl += '<div>';
+		tmpl += '<div class="modal-header">';
+		tmpl += '<button type="button" class="close" ng-click="receipt_cancel()"><i class="fa fa-close"></i></button>';
+		tmpl += '<h4 class="m-n" style="text-align: center;">${Receipt}</h4>';
+		tmpl += '</div>';
+		tmpl += '<div class="modal-body">';
+		tmpl += '<div class="text-center">';
+		tmpl += '<img src="' + receipt + '" style="max-width:100%;" />';
+		tmpl += '</div>';
+		tmpl += '</div>';
+		tmpl += '<div class="modal-footer">';
+		tmpl += '<button ng-disabled="busy" ng-click="receipt_cancel()" class="btn btn-default">${Close}</button>';
+		tmpl += '</div>';
+		tmpl += '</div>';
+
+		var opts;
+		opts = {
+			size: 'lg',
+			appendTo: parentElem,
+			scope: $scope,
+			backdrop: 'static',
+			template: tmpl
+		};
+
+		dlg_receipt = $uibModal.open( opts );
+	}
+
+	$scope.receipt_cancel = function() {
+		dlg_receipt.dismiss( 'cancel' );
+	}
+
+	$scope.canSaveDeclaration = function() {
+		if ( $scope.busy )
+			return false;
+		else {
+			if ( $scope.declaration.sys_id == '-1' ) {
+				if (!$scope.hasAttachment())
+					return false;
+			}
+			if ($scope.declaration.edit.category.sys_id == '9708e311db498300aa4fb34ffe9619b2' || $scope.declaration.edit.category.sys_id == '9f08e311db498300aa4fb34ffe9619b2'){
+				if	( !$scope.declaration.edit.customer_involved)
+					return false;
+				else if( $scope.declaration.edit.customer_involved == 'yes' && !$scope.declaration.edit.name_customer)
+					return false;
+				if ($scope.declaration.edit.category.sys_id == '9f08e311db498300aa4fb34ffe9619b2' && (!$scope.declaration.edit.category || !$scope.declaration.edit.description || !$scope.declaration.edit.date || !$scope.declaration.edit.amount || !$scope.declaration.edit.tax))
+					return false;
+				else if( !$scope.declaration.edit.category || !$scope.declaration.edit.description || !$scope.declaration.edit.date || !$scope.declaration.edit.amount)
+					return false;
+
+			}else if ($scope.declaration.edit.category.sys_id == '9308e311db498300aa4fb34ffe9619b3'){
+				if ( !$scope.declaration.edit.category || !$scope.declaration.edit.description || !$scope.declaration.edit.date || !$scope.declaration.edit.amount)
+					return false;
+				
+			}else if ( !$scope.declaration.edit.category || !$scope.declaration.edit.description || !$scope.declaration.edit.date || !$scope.declaration.edit.amount || !$scope.declaration.edit.tax )
+				return false;
+		}
+		return true;
+	}
+
+	var colorCache;
+	$scope.getFieldColor = function( report, fieldName ) {
+		var defaultColor = "transparent";
+		if ( colorCache ) {
+			if ( fieldName in colorCache )
+				return colorCache[fieldName];
+			else
+				return defaultColor;
+		}
+
+		colorCache = {};
+		var jf = report.stream.journal_fields;
+		for (var i = 0; i < jf.length; i++) {
+			colorCache[jf[i].name] = jf[i].color || defaultColor;
+		}
+		return $scope.getFieldColor(fieldName);
+	}
+
+	$scope.onAmountChange = function() {
+		var amount = $scope.declaration.edit.amount;
+		if (amount) {
+			amount = amount.toString();
+			if (amount.indexOf(',') >= 0) {
+				amount = amount.replace(',', '.');
+				$scope.declaration.edit.amount = amount;
+			}
+		}
+	}
+}]]></client_script>
+        <controller_as>c</controller_as>
+        <css>.action-btn {&#13;
+  margin-right: 5px;&#13;
+}&#13;
+.dropdown {&#13;
+  margin-right: 5px;&#13;
+}&#13;
+.panel-body-400 {&#13;
+  height: 400px;&#13;
+  overflow-y: auto;&#13;
+}&#13;
+textarea {&#13;
+  resize: none;&#13;
+}&#13;
+.capitalize {&#13;
+  text-transform: capitalize;&#13;
+}</css>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list>title,color,glyph</field_list>
+        <has_preview>false</has_preview>
+        <id>pp-my-hr-declarations</id>
+        <internal>false</internal>
+        <link/>
+        <name>PaphosPortal My HR Declarations</name>
+        <option_schema>[{"name":"start_year","label":"Start year","type":"integer"}]</option_schema>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {
+	// Initialize
+	var loggedin_user = gs.getUserID();
+	var gdt = new GlideDateTime();
+
+	// Options
+	options.title = options.title || '';
+	options.title = gs.getMessage( options.title );
+	options.color = options.color || 'default';
+	options.start_year = options.start_year || gdt.getYearLocalTime();
+	
+	data.years = [];
+	for ( var i = options.start_year; i <= gdt.getYearLocalTime() + 1; i++ ) {
+		data.years.push( i );
+	}
+	data.months = [];
+	data.months.push( { value: '1', label: gs.getMessage( 'January' ) } );
+	data.months.push( { value: '2', label: gs.getMessage( 'February' ) } );
+	data.months.push( { value: '3', label: gs.getMessage( 'March' ) } );
+	data.months.push( { value: '4', label: gs.getMessage( 'April' ) } );
+	data.months.push( { value: '5', label: gs.getMessage( 'May' ) } );
+	data.months.push( { value: '6', label: gs.getMessage( 'June' ) } );
+	data.months.push( { value: '7', label: gs.getMessage( 'July' ) } );
+	data.months.push( { value: '8', label: gs.getMessage( 'August' ) } );
+	data.months.push( { value: '9', label: gs.getMessage( 'September' ) } );
+	data.months.push( { value: '10', label: gs.getMessage( 'October' ) } );
+	data.months.push( { value: '11', label: gs.getMessage( 'November' ) } );
+	data.months.push( { value: '12', label: gs.getMessage( 'December' ) } );
+	
+	// Functions
+
+	data.year = gdt.getYearLocalTime();
+	data.month = data.months[gdt.getMonthLocalTime() - 1].value;
+	data.loggedin_user = loggedin_user;
+
+	// Input
+	var show_report = '';
+	if ( input ) {
+		data.year = input.year;
+		data.month = input.month;
+
+		if (input.report)
+			show_report = input.report.sys_id;
+
+		if ( input.action == 'save_report' ) {
+			var gr = new GlideRecord( 'x_pagr_exp_rp_expense_reports' );
+			if ( input.report.sys_id == '-1' )
+				gr.initialize();
+			else
+				gr.get( input.report.sys_id );
+			if ( input.report.sys_id == '-1' ) {
+				gr.setValue( 'opened_by', loggedin_user );
+			}
+			if ( input.report.sys_id == '-1' || input.report.state == '301' ) {
+				gr.setValue( 'year', input.report.edit.year );
+				gr.setValue( 'month', input.report.edit.month );
+			}
+			if ( input.report.sys_id == '-1' )
+				show_report = gr.insert();
+			else
+				gr.update();
+
+			data.year = input.report.edit.year;
+			data.month = input.report.edit.month;
+		}
+
+		if ( input.action == 'submit_report' ) {
+			var gr = new GlideRecord( 'x_pagr_exp_rp_expense_reports' );
+			if ( gr.get( input.report.sys_id ) ) {
+				gr.setValue( 'approval', 'requested' );
+				gr.setValue( 'state', '302' );
+				gr.update();
+			}
+		}
+
+		if ( input.action == 'comment_report' ) {
+			var gr = new GlideRecord( 'x_pagr_exp_rp_expense_reports' );
+			if ( gr.get( input.report.sys_id ) ) {
+				gr.comments = input.report.comments;
+				gr.update();
+			}
+		}
+
+		if ( input.action == 'save_declaration' ) {
+			data.test_input = input;
+			var gr = new GlideRecord( 'x_pagr_exp_rp_expense_line' );
+			if ( input.declaration.sys_id == '-1' )
+				gr.initialize();
+			else
+				gr.get( input.declaration.sys_id );
+			gr.setValue( 'expense_report', input.report.sys_id );
+			gr.setValue( 'description', input.declaration.edit.description );
+			gr.setValue( 'category', input.declaration.edit.category.sys_id ); 
+			gr.setValue( 'date', input.declaration.edit.date );
+			gr.setValue( 'amount', input.declaration.edit.amount );
+			gr.setValue( 'tax_percent', input.declaration.edit.tax );
+			gr.setValue( 'tax_amount', ( input.declaration.edit.amount * input.declaration.edit.tax / 100 ) );
+			gr.setValue( 'amount_without_tax', ( input.declaration.edit.amount - ( input.declaration.edit.amount * input.declaration.edit.tax / 100 ) ) );
+			gr.setValue( 'customer_involved', input.declaration.edit.customer_involved );
+			gr.setValue( 'name_customer', input.declaration.edit.name_customer );
+		//	gr.setValue( 'paid_by_company_credit_card', input.declaration.edit.credit_card );
+		//	gr.setValue( 'paid_by_company_bank_card', input.declaration.edit.bank_card );
+			if ( input.declaration.sys_id == '-1' )
+				data.declaration_id = gr.insert();
+			else {
+				data.declaration_id = input.declaration.sys_id
+				gr.update();
+			}
+		}
+	}
+
+	// Get data
+	data.reports = [];
+	if ( loggedin_user ) {
+		var gr = new GlideRecord( 'x_pagr_exp_rp_expense_reports' );
+		gr.addQuery( 'year', data.year );
+		gr.addQuery( 'opened_by', data.loggedin_user );
+		gr.orderByDesc( 'year' );
+		gr.orderByDesc( 'month' );
+		gr.orderBy( 'number' );
+		gr.query();
+		while ( gr.next() ) {
+			var report = {};
+			$sp.getRecordDisplayValues( report, gr, 'number' );
+			$sp.getRecordValues( report, gr, 'sys_id,month,year,state,total_amount,sys_created_on' );
+			report.is_open = (show_report == gr.getUniqueValue());
+			report.month_display = gr.getDisplayValue( 'month' );
+			report.state_display = gr.getDisplayValue( 'state' );
+			report.comments = '';
+			report.month_index = data.months.map(function(e) { return e.value; }).indexOf(gr.getValue('month'));
+
+			report.declarations = [];
+			var grDecl = new GlideRecord( 'x_pagr_exp_rp_expense_line' );
+			grDecl.addQuery( 'expense_report', gr.getUniqueValue() );
+			grDecl.orderBy( 'number' );
+			grDecl.query();
+			while ( grDecl.next() ) {
+				var declaration = {};
+				$sp.getRecordDisplayValues( declaration, grDecl, 'number,approval,description,reason,customer_name' );
+				$sp.getRecordValues( declaration, grDecl, 'sys_id,category,amount,date,paid_by_company_bank_card,paid_by_company_credit_card,tax_percent,customer_involved' );
+				declaration.category_display = grDecl.getDisplayValue( 'category' );
+				declaration.amount_display = grDecl.getDisplayValue( 'amount' );
+				declaration.created_on = grDecl.getValue( 'sys_created_on' );
+				declaration.approval_value = grDecl.getValue( 'approval' );
+				declaration.receipt = grDecl.getDisplayValue( 'receipt' ) != '' && grDecl.getDisplayValue( 'receipt' ) != null ? '/' + grDecl.getDisplayValue( 'receipt' ) : '';
+
+				report.declarations.push( declaration );
+			}
+			report.stream = $sp.getStream( 'x_pagr_exp_rp_expense_reports', gr.getUniqueValue() );
+			data.reports.push( report );
+		}
+
+		data.categories = [];
+		var grCat = new GlideRecord( 'x_pagr_exp_rp_expense_category' );
+		grCat.addActiveQuery();
+		grCat.orderBy( 'category' );
+		grCat.query();
+		while ( grCat.next() ) {
+			var category = {};
+			$sp.getRecordDisplayValues( category, grCat, 'category' );
+			$sp.getRecordValues( category, grCat, 'sys_id,number' );
+			data.categories.push( category );
+		}
+	}
+})()]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>gerard.laheij</sys_created_by>
+        <sys_created_on>2017-09-20 18:34:51</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_id>8b6cad46db554f00aa4fb34ffe9619e7</sys_id>
+        <sys_mod_count>121</sys_mod_count>
+        <sys_name>PaphosPortal My HR Declarations</sys_name>
+        <sys_package display_value="Expense Reports" source="x_pagr_exp_rp">92c15389db8d4300aa4fb34ffe96197c</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Expense Reports">92c15389db8d4300aa4fb34ffe96197c</sys_scope>
+        <sys_update_name>sp_widget_8b6cad46db554f00aa4fb34ffe9619e7</sys_update_name>
+        <sys_updated_by>jessica.snieder</sys_updated_by>
+        <sys_updated_on>2018-07-25 07:09:31</sys_updated_on>
+        <template><![CDATA[<div class="panel panel-{{::options.color}} b pp-declarations">
+  <div ng-if="options.title" class="panel-heading">
+    <h4 class="panel-title"><fa ng-if="::options.glyph.length" name="{{::options.glyph}}" class="m-r-sm" />{{options.title}}</h4>
+  </div>
+  <div ng-if="!data.loggedin_user" class="panel-body">
+    ${No employee data could be found. Please contact Paphos Backoffice.}
+  </div>
+  <div ng-if="data.loggedin_user">
+    <div class="panel-body">
+      <div class="row m-b">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="dropdown pull-right">
+            <button ng-disabled="busy" class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              ${Year}<span ng-if="data.year"> ({{data.year}})</span>
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+              <li ng-repeat="y in data.years"><a href="javascript:void(0)" ng-click="onSelectYear($event,y)">{{y}}</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div ng-if="data.reports.length == 0">
+        ${There are no declarations yet for the selected year}
+      </div>
+      <div ng-if="data.reports.length > 0">
+        <uib-accordion close-others="true">
+          <div uib-accordion-group class="panel-default" ng-repeat="r in data.reports | orderBy: '-month_index'" is-open="r.is_open">
+            <uib-accordion-heading>
+              <span>{{r.number}}</span>
+              <span class="m-l-sm">{{r.month_display}}</span>
+              <span class="m-l-sm">({{r.state_display}})</span>
+              <span class="badge pull-right">{{r.declarations.length}}</span>
+            </uib-accordion-heading>
+            <div ng-if="r.declarations.length != 0" class="m-b">
+              ${Total amount}: &euro; {{r.total_amount}}
+            </div>
+            <div ng-if="r.declarations.length == 0">
+              ${There are no declarations yet in this report}
+            </div>
+            <div ng-if="r.declarations.length > 0" class="list-group">
+              <a href="javascript:void(0)" ng-repeat="d in r.declarations" class="list-group-item" ng-click="onDeclarationClick($event,r,d)" ng-class="{'list-group-item-success': d.approval_value=='3', 'list-group-item-danger': d.approval_value=='2', 'list-group-item-info': d.approval_value=='4'}">
+                <h4 class="list-group-item-heading">{{d.number}}</h4>
+                <div class="list-group-item-text">
+                  <div>
+                    {{d.description}}
+                  </div>
+                  <div ng-if="d.reason">
+                    ${Reason}: {{d.reason}}
+                  </div>
+                  <div class="text-muted">
+                    <glyph sn-char="certificate" class="pad-right" /><span class="pad-right">{{d.category_display}}</span>
+                    <span class="pad-right">&#8226;</span>
+                    <glyph sn-char="calendar" class="pad-right" /><span class="pad-right">{{d.date}}</span>
+                    <span class="pad-right">&#8226;</span>
+                    <glyph sn-char="star" class="pad-right" /><span class="pad-right">{{d.approval}}</span>
+                    <span class="pad-right">&#8226;</span>
+                    <span class="pad-right">&euro; {{d.amount}}</span>
+                    <span ng-if="d.paid_by_company_credit_card == 'true'">
+                      <span class="pad-right">&#8226;</span>
+                      <glyph sn-char="credit-card" class="pad-right" /><span class="pad-right">${Paid by company credit card}</span>
+                    </span>
+                    <span ng-if="d.paid_by_company_bank_card == 'true'">
+                      <span class="pad-right">&#8226;</span>
+                      <glyph sn-char="credit-card" class="pad-right" /><span class="pad-right">${Paid by company bank card}</span>
+                    </span>
+                    <span class="pad-right">&#8226;</span>
+                    <glyph sn-char="paperclip" class="pad-right" /><span class="pad-right"><span ng-if="d.receipt != ''">${Has receipt}</span><span ng-if="d.receipt == ''">${Has no receipt}</span></span>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div>
+              <h4>${Activity}</h4>
+              <div ng-show="r.state == '301' || r.state == '303'">
+                <fieldset class="form-group">
+                  <p class="input-group">
+                    <input ng-model="r.comments" type="text" class="form-control" />
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-primary" ng-click="onCommentReportClick($event, r)">${Post}</button>
+                    </span>
+                  </p>
+                </fieldset>
+              </div>
+              <div class="panel-body-400 padder-xs b-t m-b">
+                <div class="timeline-container">
+                  <ul class="timeline">
+                    <li class="timeline-item" ng-class="{'timeline-inverted': e.user_sys_id == data.loggedin_user} " ng-repeat="e in r.stream.entries">
+                      <div class="timeline-badge">
+                        <sn-avatar primary="e.user_sys_id" class="avatar-large" show-presence="true" enable-context-menu="false"></sn-avatar>
+                      </div>
+                      <div class="timeline-panel">
+                        <div class="timeline-panel-inner" style="border-color: {{::getFieldColor(r,e.element)}}">
+                          <div class="timeline-heading">
+                            <h4 class="timeline-title">{{::e.name}}</h4>
+                            <p>
+                              <small class="text-muted">
+                                <span class="glyphicon glyphicon-time " />
+                                <sn-time-ago timestamp="::e.sys_created_on" />
+                              </small>
+                            </p>
+                          </div>
+                          <div class="timeline-body">
+                            <p ng-if="e.element != 'attachment'" ng-bind-html="::e.value"></p>
+                            <div ng-if="e.element == 'attachment'">
+                              <a target="_blank" href="/sys_attachment.do?view=true&sys_id={{e.attachment.sys_id}}" title="{{dataViewMsg}}" >
+                                <img ng-if="e.attachment.thumbnail_path" alt="" ng-src="/{{e.attachment.path}}?t=medium" class="img-responsive"/>
+                              </a>
+                              <div>
+                                <a href="/sys_attachment.do?sys_id={{e.attachment.sys_id}}" target="_blank" title="{{dataViewMsg}}"><strong>{{e.attachment.file_name}}</strong></a><br/>
+                                {{e.attachment.size}}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="timeline-item timeline-inverted">
+                      <div class="timeline-badge">
+                        <sn-avatar primary="r.stream.user_sys_id" class="avatar-large" show-presence="true" enable-context-menu="false"></sn-avatar>
+                      </div>
+                      <div class="timeline-panel timeline-panel-first-item">
+                        <div class="timeline-heading">
+                          <h4 class="timeline-title">{{r.stream.user_full_name}}</h4>
+                          <p>
+                            <small class="text-muted">
+                              <span class="glyphicon glyphicon-time " />
+                              <sn-time-ago timestamp="r.sys_created_on" />
+                            </small>
+                          </p>
+                        </div>
+                        <div class="timeline-body">
+                          <p>{{r.number}} ${Created}</p>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="timeline-start">
+                      <div class="timeline-badge success">
+                        ${Start}
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div>
+              <button ng-show="r.state == '301'" ng-disabled="busy" type="button" class="btn btn-default action-btn pull-right" ng-click="onEditReportClick($event,r)">${Edit report}</button>
+              <button ng-show="r.state == '301' || r.state == '303'" ng-disabled="busy || r.declarations.length == 0" type="button" class="btn btn-primary action-btn pull-right" ng-click="onSubmitReportClick($event,r)">${Submit report}</button>
+              <button ng-show="r.state == '301'" ng-disabled="busy" type="button" class="btn btn-default action-btn pull-right" ng-click="onAddDeclarationClick($event,r)">${Add declaration}</button>
+              <div style="clear: both;"></div>
+            </div>
+          </div>
+        </uib-accordion>
+      </div>
+    </div>
+    <div class="panel-footer">
+      <button ng-disabled="busy" type="button" class="btn btn-primary action-btn pull-right" ng-click="onAddReportClick($event)">${Add new report}</button>
+      <div style="clear: both;"></div>
+    </div>
+  </div>
+</div>]]></template>
+    </sp_widget>
+</record_update>

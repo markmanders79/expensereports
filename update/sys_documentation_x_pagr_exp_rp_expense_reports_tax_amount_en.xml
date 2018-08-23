@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_documentation element="tax_amount" label="Total tax amount" language="en" table="x_pagr_exp_rp_expense_reports">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element>tax_amount</element>
+            <help/>
+            <hint/>
+            <label>Total tax amount</label>
+            <language>en</language>
+            <name>x_pagr_exp_rp_expense_reports</name>
+            <plural>Total tax amounts</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>martijn.fieten</sys_created_by>
+            <sys_created_on>2017-09-13 14:04:48</sys_created_on>
+            <sys_customer_update>false</sys_customer_update>
+            <sys_id>ddbb24bfdb49c700e8937e400f9619e2</sys_id>
+            <sys_mod_count>2</sys_mod_count>
+            <sys_name>Total tax amount</sys_name>
+            <sys_package display_value="Expense Reports" source="x_pagr_exp_rp">92c15389db8d4300aa4fb34ffe96197c</sys_package>
+            <sys_policy/>
+            <sys_replace_on_upgrade>true</sys_replace_on_upgrade>
+            <sys_scope display_value="Expense Reports">92c15389db8d4300aa4fb34ffe96197c</sys_scope>
+            <sys_update_name>sys_documentation_x_pagr_exp_rp_expense_reports_tax_amount_en</sys_update_name>
+            <sys_updated_by>mark.manders</sys_updated_by>
+            <sys_updated_on>2017-10-17 10:15:05</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

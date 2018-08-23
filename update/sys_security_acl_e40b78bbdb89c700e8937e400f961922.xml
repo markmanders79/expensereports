@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_security_acl">
+    <sys_security_acl action="INSERT_OR_UPDATE">
+        <active>false</active>
+        <admin_overrides>false</admin_overrides>
+        <advanced>false</advanced>
+        <condition table="x_pagr_exp_rp_expense_reports.comments">opened_byDYNAMIC90d1921e5f510100a9ad2572f2b477fe^EQ<item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
+        </condition>
+        <description>System Generated Rule</description>
+        <name>x_pagr_exp_rp_expense_reports.comments</name>
+        <operation display_value="write">write</operation>
+        <script/>
+        <sys_class_name>sys_security_acl</sys_class_name>
+        <sys_created_by>martijn.fieten</sys_created_by>
+        <sys_created_on>2017-09-13 15:11:39</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>e40b78bbdb89c700e8937e400f961922</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_name>x_pagr_exp_rp_expense_reports.comments</sys_name>
+        <sys_package display_value="Expense Reports" source="x_pagr_exp_rp">92c15389db8d4300aa4fb34ffe96197c</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>true</sys_replace_on_upgrade>
+        <sys_scope display_value="Expense Reports">92c15389db8d4300aa4fb34ffe96197c</sys_scope>
+        <sys_update_name>sys_security_acl_e40b78bbdb89c700e8937e400f961922</sys_update_name>
+        <sys_updated_by>jessica.snieder</sys_updated_by>
+        <sys_updated_on>2018-04-30 13:21:56</sys_updated_on>
+        <type display_value="record">record</type>
+    </sys_security_acl>
+</record_update>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_security_acl">
+    <sys_security_acl action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <admin_overrides>false</admin_overrides>
+        <advanced>true</advanced>
+        <condition/>
+        <description/>
+        <name>x_pagr_exp_rp_expense_reports.comments</name>
+        <operation display_value="write">write</operation>
+        <script><![CDATA[new global.PaphosRoleCheck().hasRoleExactly('paphos_backoffice');]]></script>
+        <sys_class_name>sys_security_acl</sys_class_name>
+        <sys_created_by>jessica.snieder</sys_created_by>
+        <sys_created_on>2018-05-02 11:06:23</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>371ae98edb3d1b002c7d70600f961970</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>x_pagr_exp_rp_expense_reports.comments</sys_name>
+        <sys_package display_value="Expense Reports" source="x_pagr_exp_rp">92c15389db8d4300aa4fb34ffe96197c</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>true</sys_replace_on_upgrade>
+        <sys_scope display_value="Expense Reports">92c15389db8d4300aa4fb34ffe96197c</sys_scope>
+        <sys_update_name>sys_security_acl_371ae98edb3d1b002c7d70600f961970</sys_update_name>
+        <sys_updated_by>jessica.snieder</sys_updated_by>
+        <sys_updated_on>2018-05-02 11:07:21</sys_updated_on>
+        <type display_value="record">record</type>
+    </sys_security_acl>
+</record_update>

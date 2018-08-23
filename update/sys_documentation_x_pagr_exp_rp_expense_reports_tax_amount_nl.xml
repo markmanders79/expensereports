@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_documentation element="tax_amount" label="Totaal BTW bedrag" language="nl" table="x_pagr_exp_rp_expense_reports">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element>tax_amount</element>
+            <help/>
+            <hint/>
+            <label>Totaal BTW bedrag</label>
+            <language>nl</language>
+            <name>x_pagr_exp_rp_expense_reports</name>
+            <plural>Totaal BTW bedragen</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>jessica.snieder</sys_created_by>
+            <sys_created_on>2018-04-25 14:11:46</sys_created_on>
+            <sys_customer_update>false</sys_customer_update>
+            <sys_id>9f6156b7db691300aa4fb34ffe96195f</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>Totaal BTW bedrag</sys_name>
+            <sys_package display_value="Expense Reports" source="x_pagr_exp_rp">92c15389db8d4300aa4fb34ffe96197c</sys_package>
+            <sys_policy/>
+            <sys_replace_on_upgrade>true</sys_replace_on_upgrade>
+            <sys_scope display_value="Expense Reports">92c15389db8d4300aa4fb34ffe96197c</sys_scope>
+            <sys_update_name>sys_documentation_x_pagr_exp_rp_expense_reports_tax_amount_nl</sys_update_name>
+            <sys_updated_by>jessica.snieder</sys_updated_by>
+            <sys_updated_on>2018-04-25 14:11:46</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

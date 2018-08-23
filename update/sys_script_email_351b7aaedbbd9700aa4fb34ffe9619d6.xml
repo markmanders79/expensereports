@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_email">
+    <sys_script_email action="INSERT_OR_UPDATE">
+        <name>Paphos_view_expense_report_on_portal_nl</name>
+        <new_lines_to_html>false</new_lines_to_html>
+        <script><![CDATA[(function runMailScript(current, template, email, email_action, event) {
+var link = "/paphosportal?id=pp_my_hr_declarations";
+//var link = "/sp?id=ticket&table=change_request&sys_id=" + current.sys_id;
+	//var link = '<a href="' + gs.getProperty('glide.servlet.uri') + 'paphosportal?id=ticket&table=' + current.sys_class_name + '&sys_id=' + 
+	//	current.sys_id + '">' + current.number + '</a>';
+template.print('<p><font size="2" color="#000000" face="arial">');
+template.print(gs.getMessage('Klik op onderstaande link om je declaratie op de portal te bekijken'));
+template.print('</font></p>');
+
+template.print('<font face="helvetica">');
+
+var backgroundColor = 'background-color: #278efc;';
+var border = 'border: 1px solid #0368d4;';
+var color = 'color: #ffffff;';
+var fontSize = 'font-size: 14px;';
+var fontFamily = 'font-family: Helvetica, Arial, sans-serif;';
+var textDecoration = 'text-decoration: none; border-radius: 3px;';
+var webKitBorder = '-webkit-border-radius: 3px;';
+var mozBorder = '-moz-border-radius: 3px;';
+var display = 'display: inline-block;';
+var padding = 'padding: 5px;';
+
+ 
+template.print('<a href="' + link + '"');
+template.print('style="' + backgroundColor + border + color + fontSize + fontFamily + textDecoration + webKitBorder + mozBorder + display + padding);
+template.print('">');
+template.print(gs.getMessage('Bekijk declaratie'));
+template.print('</a>');
+template.print('</font>');
+template.print('<br>');
+template.print('<p><font size="2" color="#000000" face="arial">');
+})(current, template, email, email_action, event);]]></script>
+        <sys_class_name>sys_script_email</sys_class_name>
+        <sys_created_by>jessica.snieder</sys_created_by>
+        <sys_created_on>2018-05-04 06:18:35</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>351b7aaedbbd9700aa4fb34ffe9619d6</sys_id>
+        <sys_mod_count>14</sys_mod_count>
+        <sys_name>Paphos_view_expense_report_on_portal_nl</sys_name>
+        <sys_package display_value="Expense Reports" source="x_pagr_exp_rp">92c15389db8d4300aa4fb34ffe96197c</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Expense Reports">92c15389db8d4300aa4fb34ffe96197c</sys_scope>
+        <sys_update_name>sys_script_email_351b7aaedbbd9700aa4fb34ffe9619d6</sys_update_name>
+        <sys_updated_by>jessica.snieder</sys_updated_by>
+        <sys_updated_on>2018-05-04 07:29:21</sys_updated_on>
+    </sys_script_email>
+</record_update>

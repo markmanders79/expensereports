@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element attributes="live_feed=true" audit="true" extends="task" label="Expense Report" max_length="40" name="x_pagr_exp_rp_expense_reports" sizeclass="309" type="collection">
+        <element calculation="(function calculatedFieldValue(current) {&#10;&#9;&#10;&#9;var sum = new GlideRecord('x_pagr_exp_rp_expense_line');&#10;&#9;&#10;&#9;sum.addQuery(&quot;expense_report&quot;, current.sys_id);&#10;&#9;sum.addQuery(&quot;approval&quot;, '!=', &quot;rejected&quot;);&#10;&#9;sum.query();&#10;&#9;&#10;&#9;var total = parseFloat('0');&#10;&#9;&#10;&#9;while (sum.next()){&#10;&#9;&#9;&#10;&#9;&#9;var x = parseFloat(sum.amount_without_tax);&#10;&#9;&#9;total += x;&#10;&#9;&#9;&#10;&#9;}&#10;&#10;&#9;return total;  &#10;&#9;&#10;})(current);" label="Total Amount Without Tax" max_length="20" name="amount_without_tax" read_only="true" type="price" virtual="true"/>
+        <element attributes="edge_encryption_enabled=true" choice="1" label="Month" mandatory="true" max_length="40" name="month" type="string">
+            <choice>
+                <element label="Januari" language="nl" sequence="1" value="1"/>
+                <element label="January" sequence="1" value="1"/>
+                <element label="Februari" language="nl" sequence="2" value="2"/>
+                <element label="February" sequence="2" value="2"/>
+                <element label="Maart" language="nl" sequence="3" value="3"/>
+                <element label="March" sequence="3" value="3"/>
+                <element label="April" language="nl" sequence="4" value="4"/>
+                <element label="April" sequence="4" value="4"/>
+                <element label="May" sequence="5" value="5"/>
+                <element label="Mei" language="nl" sequence="5" value="5"/>
+                <element label="June" sequence="6" value="6"/>
+                <element label="Juni" language="nl" sequence="6" value="6"/>
+                <element label="Juli" language="nl" sequence="7" value="7"/>
+                <element label="July" sequence="7" value="7"/>
+                <element label="August" sequence="8" value="8"/>
+                <element label="Augustus" language="nl" sequence="8" value="8"/>
+                <element label="September" sequence="9" value="9"/>
+                <element label="September" language="nl" sequence="9" value="9"/>
+                <element label="October" sequence="10" value="10"/>
+                <element label="Oktober" language="nl" sequence="10" value="10"/>
+                <element label="November" sequence="11" value="11"/>
+                <element label="November" language="nl" sequence="11" value="11"/>
+                <element label="December" language="nl" sequence="12" value="12"/>
+                <element label="December" sequence="12" value="12"/>
+            </choice>
+        </element>
+        <element attributes="edge_encryption_enabled=true" label="Period" max_length="40" name="period" type="string"/>
+        <element calculation="(function calculatedFieldValue(current) {&#10;&#9;&#10;&#9;var sum = new GlideRecord('x_pagr_exp_rp_expense_line');&#10;&#9;&#10;&#9;sum.addQuery(&quot;expense_report&quot;, current.sys_id);&#10;&#9;&#9;sum.addQuery(&quot;approval&quot;, '!=', &quot;rejected&quot;);&#10;&#9;sum.query();&#10;&#9;&#10;&#9;var total = parseFloat('0');&#10;&#9;&#10;&#9;while (sum.next()){&#10;&#9;&#9;&#10;&#9;&#9;var x = parseFloat(sum.tax_amount);&#10;&#9;&#9;total += x;&#10;&#9;&#9;&#10;&#9;}&#10;&#9;&#10;&#9;return total;  // return the calculated value&#10;&#9;&#10;})(current);" label="Total tax amount" max_length="20" name="tax_amount" read_only="true" type="price" virtual="true"/>
+        <element attributes="omit_sys_original=true,serializer=com.glide.script.PriceXMLSerializer" calculation="(function calculatedFieldValue(current) {&#10;&#9;&#10;&#9;var sum = new GlideRecord('x_pagr_exp_rp_expense_line');&#10;&#9;&#10;&#9;sum.addQuery(&quot;expense_report&quot;, current.sys_id);&#10;&#9;sum.addQuery(&quot;approval&quot;, '!=', &quot;rejected&quot;);&#10;&#9;sum.query();&#10;&#9;&#10;&#9;var total = parseFloat('0');&#10;&#9;&#10;&#9;while (sum.next()){&#10;&#9;&#9;&#10;&#9;&#9;var x = parseFloat(sum.amount);&#10;&#9;&#9;total += x;&#10;&#9;&#9;&#10;&#9;}&#10;&#10;&#9;return total;  &#10;&#9;&#10;})(current);" label="Total Amount to pay out" max_length="20" name="total_amount" read_only="true" type="price" virtual="true"/>
+        <element attributes="edge_encryption_enabled=true" choice="1" label="Year" mandatory="true" max_length="40" name="year" type="string">
+            <choice>
+                <element label="2017" sequence="0" value="2017"/>
+                <element label="2018" sequence="1" value="2018"/>
+                <element label="2019" sequence="2" value="2019"/>
+                <element label="2020" sequence="3" value="2020"/>
+                <element label="2021" sequence="4" value="2021"/>
+            </choice>
+        </element>
+    </element>
+</database>

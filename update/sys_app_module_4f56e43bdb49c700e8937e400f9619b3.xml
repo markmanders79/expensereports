@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update sys_domain="global" table="sys_app_module">
+    <sys_app_module action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <application display_value="Paphos Expense Reports">4a416827db61d3002c7d70600f9619ca</application>
+        <assessment/>
+        <content_page/>
+        <device_type/>
+        <filter table="x_pagr_exp_rp_expense_reports">state=302^EQ<item endquery="false" field="state" goto="false" newquery="false" operator="=" or="false" value="302"/>
+            <item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
+        </filter>
+        <hint/>
+        <homepage/>
+        <image/>
+        <link_type>LIST</link_type>
+        <map_page/>
+        <mobile_title>All</mobile_title>
+        <mobile_view_name>Mobile</mobile_view_name>
+        <name>x_pagr_exp_rp_expense_reports</name>
+        <order>520</order>
+        <override_menu_roles>false</override_menu_roles>
+        <query/>
+        <report/>
+        <roles>x_pagr_exp_rp.backoffice</roles>
+        <survey/>
+        <survey_overwrite>true</survey_overwrite>
+        <sys_class_name>sys_app_module</sys_class_name>
+        <sys_created_by>martijn.fieten</sys_created_by>
+        <sys_created_on>2017-09-13 13:41:26</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>4f56e43bdb49c700e8937e400f9619b3</sys_id>
+        <sys_mod_count>7</sys_mod_count>
+        <sys_name>Awaiting Approval</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Expense Reports" source="x_pagr_exp_rp">92c15389db8d4300aa4fb34ffe96197c</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>true</sys_replace_on_upgrade>
+        <sys_scope display_value="Expense Reports">92c15389db8d4300aa4fb34ffe96197c</sys_scope>
+        <sys_update_name>sys_app_module_4f56e43bdb49c700e8937e400f9619b3</sys_update_name>
+        <sys_updated_by>jessica.snieder</sys_updated_by>
+        <sys_updated_on>2018-04-24 12:12:04</sys_updated_on>
+        <timeline_page/>
+        <title>Awaiting Approval</title>
+        <uncancelable>false</uncancelable>
+        <view_name/>
+        <window_name/>
+    </sys_app_module>
+</record_update>
